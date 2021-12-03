@@ -17,6 +17,7 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,22 +59,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void insertImage(String name, String path) throws FileNotFoundException {
+    private void insertImage(String name, String path) throws IOException {
 
         FileOutputStream fos = openFileOutput(name,MODE_APPEND);
         File file = new File(path);
         byte[] bytes = getBytesFromFile(file);
       fos.write(bytes);
+      fos.close();
 
         Toast.makeText(getApplicationContext(),"File saved in :"+ getFilesDir() + "/"+name,Toast.LENGTH_SHORT).show();
 
 
     }
 
-    private byte[] getBytesFromFile(File file) {
-
-
-    byte[] data = FileUtils.readFiletoBtyeArray(file);
+    private byte[] getBytesFromFile(File file) throws IOException {
+    byte[] data = FileUtils.readFileToByteArray(file);
     return data;
 
     }
